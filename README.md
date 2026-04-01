@@ -47,4 +47,8 @@ The system listens to user input via the microphone, processes the intent using 
 
 6.  **Run the Project:**
     - To talk to raw Gemini: `python main_voice_assistant.py`
+    - To talk to OpenClaw: `python openclaw_voice_client.py`
     - To talk to OpenClaw (with wake word): `python openclaw_voice_client_wakeword.py`
+
+## Notes
+- Formatting Constraint: Do not use asterisks (*) or double asterisks (**) in OpenClaw responses. The voice interface (Deepgram Aura) may read them aloud as "asterisks," which disrupts the conversational flow. Using a different TTS model might resolve this, but for now, avoid markdown emphasis.
