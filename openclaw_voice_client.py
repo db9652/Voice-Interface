@@ -166,7 +166,7 @@ def main():
         encoding="linear16",
         channels=1,
         sample_rate=16000,
-        endpointing=800
+        endpointing=3000
     )
 
     if not connection.start(options):

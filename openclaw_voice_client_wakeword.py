@@ -155,7 +155,7 @@ def start_conversation():
     connection = client.listen.websocket.v("1")
     user_speech_buffer = []
     last_speech_time = time.time()
-    IDLE_TIMEOUT = 5.0 # Seconds of silence before going back to wake word mode
+    IDLE_TIMEOUT = 10.0 # Seconds of silence before going back to wake word mode
 
     def on_message(self, result, **kwargs):
         nonlocal last_speech_time
@@ -177,7 +177,7 @@ def start_conversation():
 
     options = LiveOptions(
         model="nova-2", language="en-US", smart_format=True,
-        encoding="linear16", channels=1, sample_rate=16000, endpointing=800
+        encoding="linear16", channels=1, sample_rate=16000, endpointing=3000
     )
 
     if not connection.start(options):
