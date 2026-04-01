@@ -24,30 +24,31 @@ The pipeline consists of four main stages running sequentially (and partially co
 
 ## Tech Stack
 - **Language:** Python 3
-- **Audio I/O:** `pyaudio` (for capturing microphone and playing speaker output)
-- **Speech-to-Text (Ear):** Deepgram (Recommended for <300ms latency) or OpenAI Whisper API.
-- **LLM (Brain):** `google-generativeai` (Gemini Pro)
-- **Text-to-Speech (Mouth):** `elevenlabs` Python SDK (Streaming mode)
+- **Audio I/O:** `pyaudio`, `sounddevice`
+- **Speech-to-Text (Ear):** Deepgram (Cloud) / Vosk (Local Wake Word)
+- **LLM (Brain):** Google Gemini Pro / OpenClaw Gateway
+- **Text-to-Speech (Mouth):** Deepgram Aura TTS
 
 ## Implementation Phases
 
 ### Phase 1: The Voice (TTS Proof of Concept)
-- Authenticate with ElevenLabs.
-- Write a script to take a hardcoded string and stream the generated audio to the speakers.
-- Goal: Verify API keys and audio playback latency.
+- Authenticate with ElevenLabs/Deepgram.
+- Write a script to stream generated audio to the speakers.
 
 ### Phase 2: The Brain (LLM + TTS Streaming)
 - Authenticate with Gemini Pro.
-- Create a text-based chat loop with Gemini.
-- Pipe Gemini's streaming text output directly into ElevenLabs.
-- Goal: Ensure text chunks are smoothly converted to continuous audio without stuttering.
+- Create a text-based chat loop with Gemini and stream to TTS.
 
 ### Phase 3: The Ear (Mic + STT)
-- Implement PyAudio to record from the microphone.
-- Send the audio buffer to the STT provider and get the transcript.
-- Goal: Complete the pipeline (Mic -> STT -> Print text).
+- Implement microphone recording and STT.
 
-### Phase 4: Full Pipeline & Optimization (VAD + Interruptions)
-- Connect all three phases (Mic -> STT -> LLM -> TTS).
-- Implement Voice Activity Detection (VAD) so no manual "Enter" key is needed; you just speak naturally.
-- Implement "Barge-in" (Interruption): If the AI is speaking and you start talking, it should immediately stop playing audio and listen to you.
+### Phase 4: Full Pipeline & Barge-in
+- Connect all phases (Mic -> STT -> LLM -> TTS).
+- Implement "Barge-in" (Interruption): Stop playing audio when the user starts speaking.
+
+### Phase 5: Privacy & Wake Word (Vosk)
+- Integrated a local, offline wake word engine using **Vosk**.
+- Mic stays 100% local until the word "White" is heard.
+- Once triggered, it activates the cloud-based Deepgram + OpenClaw pipeline.
+- Automatically goes back to "Sleep Mode" after 5 seconds of silence.
+- Goal: Save API credits and ensure privacy.
