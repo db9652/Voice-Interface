@@ -1,0 +1,5 @@
+google-generativeai
+pyaudio
+python-dotenv
+deepgram-sdk==3.4.0
+requests
