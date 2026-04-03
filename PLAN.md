@@ -52,3 +52,9 @@ The pipeline consists of four main stages running sequentially (and partially co
 - Once triggered, it activates the cloud-based Deepgram + OpenClaw pipeline.
 - Automatically goes back to "Sleep Mode" after 5 seconds of silence.
 - Goal: Save API credits and ensure privacy.
+
+### Phase 6: Client/Server Architecture & WebUI
+- **Goal:** Allow remote access to the voice assistant from any device (smartphone, laptop) without needing local python scripts.
+- **Server:** Converted the core pipeline into a WebSocket server (`server.py`) running on port 8765. It handles Deepgram STT, OpenClaw LLM, and Deepgram TTS.
+- **Client (WebUI):** Created a sleek HTML/JS frontend (`index.html`) that uses the browser's native `getUserMedia` API to capture mic audio and stream it to the server.
+- **Deployment:** The setup can be routed through Cloudflare Tunnels to provide automatic HTTPS (required for mic access) and secure WebSocket connections (WSS) without exposing server ports.

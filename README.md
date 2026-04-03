@@ -9,6 +9,7 @@ The system listens to user input via the microphone, processes the intent using 
 - **Barge-in (Interruptions):** Stop the AI's response mid-sentence by just speaking.
 - **Privacy & Wake Word:** Listen for "Hey White" locally without streaming audio to the cloud until triggered.
 - **OpenClaw Integration:** Talk directly to the OpenClaw assistant and give it system commands via voice.
+- **Remote Access (WebUI):** Client/Server architecture allows you to talk to the assistant from any smartphone or browser via WebSockets.
 
 ## Installation & Setup
 
@@ -46,9 +47,14 @@ The system listens to user input via the microphone, processes the intent using 
     ```
 
 6.  **Run the Project:**
-    - To talk to raw Gemini: `python main_voice_assistant.py`
-    - To talk to OpenClaw: `python openclaw_voice_client.py`
+    - To talk to raw Gemini locally: `python main_voice_assistant.py`
+    - To talk to OpenClaw locally: `python openclaw_voice_client.py`
     - To talk to OpenClaw (with wake word): `python openclaw_voice_client_wakeword.py`
+
+7.  **Run Remotely via WebUI (Client/Server):**
+    - Start the WebSocket Server: `python server.py`
+    - Start a local web server for the UI: `python -m http.server 8080`
+    - Open your browser to `http://127.0.0.1:8080` (or setup a Cloudflare Tunnel for secure remote HTTPS access on your smartphone).
 
 ## Notes
 - Formatting Constraint: Do not use asterisks (*) or double asterisks (**) in OpenClaw responses. The voice interface (Deepgram Aura) may read them aloud as "asterisks," which disrupts the conversational flow. Using a different TTS model might resolve this, but for now, avoid markdown emphasis.
