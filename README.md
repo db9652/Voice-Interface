@@ -53,8 +53,9 @@ The system listens to user input via the microphone, processes the intent using 
 
 7.  **Run Remotely via WebUI (Client/Server):**
     - Start the WebSocket Server: `python server.py`
-    - Start a local web server for the UI: `python -m http.server 8080`
-    - Open your browser to `http://127.0.0.1:8080` (or setup a Cloudflare Tunnel for secure remote HTTPS access on your smartphone).
+    - Start a local web server for the UI: `python -m http.server 9000`
+    - Open your browser to `https://white.chintuladdu.online` (securely routed via Cloudflare Tunnels).
+    - Login via Cloudflare Access (One-Time PIN sent to your authorized email).
 
 ## Notes
 - Formatting Constraint: Do not use asterisks (*) or double asterisks (**) in OpenClaw responses. The voice interface (Deepgram Aura) may read them aloud as "asterisks," which disrupts the conversational flow. Using a different TTS model might resolve this, but for now, avoid markdown emphasis.
