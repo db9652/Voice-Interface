@@ -78,17 +78,20 @@ def process_user_input(text, tts_queue):
                             break
                         try:
                             data = json.loads(data_content)
-                            content = data['choices'][0]['delta'].get('content', '')
-                            if content:
-                                print(content, end="", flush=True)
-                                buffer += content
-                                match = re.search(r'(?<=[.!?])\s+', buffer)
-                                if match:
-                                    sentence = buffer[:match.end()].strip()
-                                    if sentence:
-                                        tts_queue.put(sentence)
-                                    buffer = buffer[match.end():]
-                        except:
+                            choices = data.get('choices', [])
+                            if choices:
+                                content = choices[0].get('delta', {}).get('content', '')
+                                if content:
+                                    print(content, end="", flush=True)
+                                    buffer += content
+                                    match = re.search(r'(?<=[.!?])\s+', buffer)
+                                    if match:
+                                        sentence = buffer[:match.end()].strip()
+                                        if sentence:
+                                            tts_queue.put(sentence)
+                                        buffer = buffer[match.end():]
+                        except Exception as e:
+                            print(f"\n[Data Parsing Error: {e}]")
                             pass
                             
         if buffer.strip():
@@ -98,7 +101,8 @@ def process_user_input(text, tts_queue):
         print(f"\n[OpenClaw Gateway Error: {e}]")
 
 
-async def handle_client(websocket, path):
+async def handle_client(websocket):
+    path = "" # Compatibility with older code structure if needed
     print(f"New client connected: {websocket.remote_address}")
     active_connections.add(websocket)
     
